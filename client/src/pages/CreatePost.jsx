@@ -17,11 +17,11 @@ const CreatePost = () => {
   const [publishError, setPublishError] = useState(null);
 
   const navigate = useNavigate();
-  
+
 
 
   const handleImageUpload = async () => {
-    
+
     try {
       if (!file) {
         setImageUploadError('Please select an image to upload');
@@ -43,14 +43,14 @@ const CreatePost = () => {
         setImageUploadError('Image upload failed');
         setImageUploadProgress(null);
       }, () => {
-       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageUploadProgress(null);
           setImageUploadError(null);
-          setFormData({...formData, image: downloadURL});
-       });
+          setFormData({ ...formData, image: downloadURL });
+        });
       }
       );
-      
+
     } catch (error) {
       setImageUploadError('Image upload failed');
       setImageUploadProgress(null);
@@ -102,63 +102,63 @@ const CreatePost = () => {
             required
             id="title"
             className="flex-1"
-            onChange={(e) => setFormData({...formData, title: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
             <option value="uncategorized">Select a category</option>
             <option value="javascript">JavaScript</option>
             <option value="reactjs">React.js</option>
             <option value="nextjs">Next.js</option>
-          </Select>          
+          </Select>
         </div>
 
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
 
 
-            <FileInput
+          <FileInput
             type="file"
             accept="image/*"
-            onChange= {(e) => setFile(e.target.files[0])}   
-             />
+            onChange={(e) => setFile(e.target.files[0])}
+          />
 
-             <Button
-              type="button"
-              gradientDuoTone="purpleToBlue"
-              size="sm"
-              outline
-              onClick={() => handleImageUpload()}
+          <Button
+            type="button"
+            gradientDuoTone="purpleToBlue"
+            size="sm"
+            outline
+            onClick={() => handleImageUpload()}
 
-             >
-              {imageUploadProgress ? (
-                <div className="w-16 h-16">
-                  <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
-                </div>
-              ) : (
-                "Upload Image"
-              )}
-             </Button>
-              
+          >
+            {imageUploadProgress ? (
+              <div className="w-16 h-16">
+                <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
+              </div>
+            ) : (
+              "Upload Image"
+            )}
+          </Button>
+
         </div>
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        
+
         {formData.image && (
-          <img 
+          <img
             src={formData.image}
             alt="upload"
-            className="w-full h-72 object-cover" 
-            />
+            className="w-full h-72 object-cover"
+          />
         )}
 
 
-        <ReactQuill 
+        <ReactQuill
           theme="snow"
           className="h-72 mb-12"
           required
           onChange={(value) => {
-            setFormData({...formData, content: value});
+            setFormData({ ...formData, content: value });
           }}
 
         />
