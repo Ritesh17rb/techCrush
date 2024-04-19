@@ -20,22 +20,22 @@ const OAuth = () => {
         provider.setCustomParameters({ prompt: "select_account" });
         try {
             const resultsFromGoogle = await signInWithPopup(auth, provider);
-            const res = await fetch("/api/auth/google", {
+            const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + "/api/auth/google", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     name: resultsFromGoogle.user.displayName,
                     email: resultsFromGoogle.user.email,
                     googlePhotoUrl: resultsFromGoogle.user.photoURL,
-                 }),
+                }),
             });
-            
+
             const data = await res.json();
             if (res.ok) {
                 dispatch(signInSuccess(data));
-                navigate("/");   
+                navigate(import.meta.env.VITE_SERVER_DOMAIN + "/");
             }
 
         } catch (error) {
@@ -46,12 +46,12 @@ const OAuth = () => {
 
 
 
-  return (
-    <Button type="button" gradientDuoTone="pinkToOrange" outline onClick={handleGoogleClick}>
-        <AiFillGoogleCircle className="w-6 h-6 mr-2"/>
-        Continue with Google
-    </Button>
-  )
+    return (
+        <Button type="button" gradientDuoTone="pinkToOrange" outline onClick={handleGoogleClick}>
+            <AiFillGoogleCircle className="w-6 h-6 mr-2" />
+            Continue with Google
+        </Button>
+    )
 }
 
 export default OAuth

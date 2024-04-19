@@ -18,32 +18,32 @@ const UpdatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
 
-  const { currentUser } = useSelector((state) => state.user); 
-  
+  const { currentUser } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
   const { postId } = useParams();
 
   useEffect(() => {
     try {
-        const fetchPost = async () => {
-            const res = await fetch(`/api/post/getposts?postId=${postId}`)
-            const data = await res.json();
+      const fetchPost = async () => {
+        const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/post/getposts?postId=${postId}`)
+        const data = await res.json();
 
-            if (!res.ok) {
-                console.log(data.message);
-                setPublishError(data.message);
-                return;
-            }
+        if (!res.ok) {
+          console.log(data.message);
+          setPublishError(data.message);
+          return;
+        }
 
-            if (res.ok) {
-                setPublishError(null);
-                setFormData(data.posts[0]);
-            }
-        };
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.posts[0]);
+        }
+      };
 
-        fetchPost();
+      fetchPost();
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
 
   }, [postId]);
@@ -52,7 +52,7 @@ const UpdatePost = () => {
 
 
   const handleImageUpload = async () => {
-    
+
     try {
       if (!file) {
         setImageUploadError('Please select an image to upload');
@@ -74,14 +74,14 @@ const UpdatePost = () => {
         setImageUploadError('Image upload failed');
         setImageUploadProgress(null);
       }, () => {
-       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageUploadProgress(null);
           setImageUploadError(null);
-          setFormData({...formData, image: downloadURL});
-       });
+          setFormData({ ...formData, image: downloadURL });
+        });
       }
       );
-      
+
     } catch (error) {
       setImageUploadError('Image upload failed');
       setImageUploadProgress(null);
@@ -94,7 +94,7 @@ const UpdatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/post/updatepost/${formData._id}/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ const UpdatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`);
+        navigate(import.meta.env.VITE_SERVER_DOMAIN + `/post/${data.slug}`);
       }
 
     } catch (error) {
@@ -133,65 +133,65 @@ const UpdatePost = () => {
             required
             id="title"
             className="flex-1"
-            onChange={(e) => setFormData({...formData, title: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             value={formData.title}
           />
           <Select
-            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             value={formData.category}
           >
             <option value="uncategorized">Select a category</option>
             <option value="javascript">JavaScript</option>
             <option value="reactjs">React.js</option>
             <option value="nextjs">Next.js</option>
-          </Select>          
+          </Select>
         </div>
 
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
 
 
-            <FileInput
+          <FileInput
             type="file"
             accept="image/*"
-            onChange= {(e) => setFile(e.target.files[0])}   
-             />
+            onChange={(e) => setFile(e.target.files[0])}
+          />
 
-             <Button
-              type="button"
-              gradientDuoTone="purpleToBlue"
-              size="sm"
-              outline
-              onClick={() => handleImageUpload()}
+          <Button
+            type="button"
+            gradientDuoTone="purpleToBlue"
+            size="sm"
+            outline
+            onClick={() => handleImageUpload()}
 
-             >
-              {imageUploadProgress ? (
-                <div className="w-16 h-16">
-                  <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
-                </div>
-              ) : (
-                "Upload Image"
-              )}
-             </Button>
-              
+          >
+            {imageUploadProgress ? (
+              <div className="w-16 h-16">
+                <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
+              </div>
+            ) : (
+              "Upload Image"
+            )}
+          </Button>
+
         </div>
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        
+
         {formData.image && (
-          <img 
+          <img
             src={formData.image}
             alt="upload"
-            className="w-full h-72 object-cover" 
-            />
+            className="w-full h-72 object-cover"
+          />
         )}
 
 
-        <ReactQuill 
+        <ReactQuill
           theme="snow"
           className="h-72 mb-12"
           required
           onChange={(value) => {
-            setFormData({...formData, content: value});
+            setFormData({ ...formData, content: value });
           }}
           value={formData.content}
 

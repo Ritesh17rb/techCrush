@@ -18,7 +18,7 @@ const DashUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`/api/user/getusers`);
+        const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/user/getusers`);
         const data = await res.json();
 
         if (res.ok) {
@@ -33,7 +33,7 @@ const DashUsers = () => {
     };
 
     if (currentUser.isAdmin) {
-        fetchUsers();
+      fetchUsers();
     }
   }, [currentUser._id]);
 
@@ -41,7 +41,7 @@ const DashUsers = () => {
     const startIndex = users.length;
     try {
       const res = await fetch(
-        `/api/post/getusers?startIndex=${startIndex}`
+        import.meta.env.VITE_SERVER_DOMAIN + `/api/post/getusers?startIndex=${startIndex}`
       );
       const data = await res.json();
 
@@ -58,20 +58,20 @@ const DashUsers = () => {
 
   const handleDeleteUser = async (req, res, next) => {
     try {
-        const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
-            method: "DELETE",
-        });
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/user/delete/${userIdToDelete}`, {
+        method: "DELETE",
+      });
 
-        const data = await res.json();
-        if (res.ok) {
-            setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
-            setShowModal(false);
-        } else {
-            console.log(data.message);
-        }
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+        setShowModal(false);
+      } else {
+        console.log(data.message);
+      }
 
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
   };
 
@@ -96,26 +96,26 @@ const DashUsers = () => {
                     {new Date(user.createdAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                 
-                      <img
-                        src={user.profilePicture}
-                        alt={user.username}
-                        className="w-10 h-10 object-cover bg-gray-500 rounded-full"
-                      />
-                 
+
+                    <img
+                      src={user.profilePicture}
+                      alt={user.username}
+                      className="w-10 h-10 object-cover bg-gray-500 rounded-full"
+                    />
+
                   </Table.Cell>
 
                   <Table.Cell>
-                 
-                      {user.username}
-                   </Table.Cell>
+
+                    {user.username}
+                  </Table.Cell>
 
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>
                     {user.isAdmin ? (
-                        <FaCheck className="text-green-500" />
+                      <FaCheck className="text-green-500" />
                     ) : (
-                        <FaTimes className="text-red-500" />
+                      <FaTimes className="text-red-500" />
                     )}
                   </Table.Cell>
 
@@ -130,7 +130,7 @@ const DashUsers = () => {
                       Delete
                     </span>
                   </Table.Cell>
-                  
+
                 </Table.Row>
               </Table.Body>
             ))}

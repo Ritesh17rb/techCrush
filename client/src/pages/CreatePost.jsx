@@ -63,7 +63,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + '/api/post/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const CreatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`);
+        navigate(import.meta.env.VITE_SERVER_DOMAIN + `/post/${data.slug}`);
       }
 
     } catch (error) {

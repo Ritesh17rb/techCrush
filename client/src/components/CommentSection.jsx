@@ -15,14 +15,14 @@ export default function CommentSection({ postId }) {
   const navigate = useNavigate();
 
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
       return;
     }
     try {
-      const res = await fetch('/api/comment/create', {
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + '/api/comment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default function CommentSection({ postId }) {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/comment/getPostComments/${postId}`);
         if (res.ok) {
           const data = await res.json();
           setComments(data);
@@ -62,10 +62,10 @@ export default function CommentSection({ postId }) {
   const handleLike = async (commentId) => {
     try {
       if (!currentUser) {
-        navigate('/sign-in');
+        navigate(import.meta.env.VITE_SERVER_DOMAIN + '/sign-in');
         return;
       }
-      const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/comment/likeComment/${commentId}`, {
         method: 'PUT',
       });
       if (res.ok) {
@@ -74,10 +74,10 @@ export default function CommentSection({ postId }) {
           comments.map((comment) =>
             comment._id === commentId
               ? {
-                  ...comment,
-                  likes: data.likes,
-                  numberOfLikes: data.likes.length,
-                }
+                ...comment,
+                likes: data.likes,
+                numberOfLikes: data.likes.length,
+              }
               : comment
           )
         );
@@ -99,10 +99,10 @@ export default function CommentSection({ postId }) {
     setShowModal(false);
     try {
       if (!currentUser) {
-        navigate('/sign-in');
+        navigate(import.meta.env.VITE_SERVER_DOMAIN + '/sign-in');
         return;
       }
-      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+      const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/comment/deleteComment/${commentId}`, {
         method: 'DELETE',
       });
       if (res.ok) {
