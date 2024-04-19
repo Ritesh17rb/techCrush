@@ -76,7 +76,7 @@ export default function Search() {
     urlParams.set('sort', sidebarData.sort);
     urlParams.set('category', sidebarData.category);
     const searchQuery = urlParams.toString();
-    navigate(import.meta.env.VITE_SERVER_DOMAIN + `/search?${searchQuery}`);
+    navigate(`/search?${searchQuery}`);
   };
 
   const handleShowMore = async () => {

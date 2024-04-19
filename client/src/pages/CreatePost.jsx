@@ -80,7 +80,7 @@ const CreatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(import.meta.env.VITE_SERVER_DOMAIN + `/post/${data.slug}`);
+        navigate(`/post/${data.slug}`);
       }
 
     } catch (error) {

@@ -44,7 +44,7 @@ const SignUp = () => {
       setLoading(false);
 
       if (res.ok) {
-        navigate(import.meta.env.VITE_SERVER_DOMAIN + "/sign-in");
+        navigate("/sign-in");
       }
 
     } catch (error) {

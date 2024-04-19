@@ -62,7 +62,7 @@ export default function CommentSection({ postId }) {
   const handleLike = async (commentId) => {
     try {
       if (!currentUser) {
-        navigate(import.meta.env.VITE_SERVER_DOMAIN + '/sign-in');
+        navigate('/sign-in');
         return;
       }
       const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/comment/likeComment/${commentId}`, {
@@ -99,7 +99,7 @@ export default function CommentSection({ postId }) {
     setShowModal(false);
     try {
       if (!currentUser) {
-        navigate(import.meta.env.VITE_SERVER_DOMAIN + '/sign-in');
+        navigate('/sign-in');
         return;
       }
       const res = await fetch(import.meta.env.VITE_SERVER_DOMAIN + `/api/comment/deleteComment/${commentId}`, {

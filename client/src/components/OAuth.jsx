@@ -35,7 +35,7 @@ const OAuth = () => {
             const data = await res.json();
             if (res.ok) {
                 dispatch(signInSuccess(data));
-                navigate(import.meta.env.VITE_SERVER_DOMAIN + "/");
+                navigate("/");
             }
 
         } catch (error) {
